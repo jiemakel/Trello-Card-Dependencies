@@ -27,7 +27,8 @@ TrelloInvisDepApp.prototype = function(){
 	{
 		var cardApiUrl = this.baseTrelloUrl + this.board +'/cards?fields=name,shortLink,idList,desc' + this.trelloKey + this.trelloToken;
 		var listApiUrl = this.baseTrelloUrl + this.board +'/lists?fields=name,shortLink,idList' + this.trelloKey + this.trelloToken;
-		return $.when($.ajax({url : cardApiUrl}),$.ajax({url : listApiUrl}));
+    var checklistApiUrl = this.baseTrelloUrl + this.board +'/checklists?cards=open' + this.trelloKey + this.trelloToken;
+		return $.when($.ajax({url : cardApiUrl}),$.ajax({url : listApiUrl}),$.ajax({url : checklistApiUrl}));
 	};
 
 	var setupChildCommunication = function()
@@ -82,10 +83,11 @@ TrelloInvisDepApp.prototype = function(){
 
 	var updateDataFromTrello = function()
 	{
-		this.loadDataFromTrello().done(function(cardResult,listResult){
+		this.loadDataFromTrello().done(function(cardResult,listResult,checklistResult){
 			var cards = cardResult;
 			var lists = listResult;
-			var dataset = new TrelloTransformer().buildDependencyOrientatedDataSet(cards,lists);
+      var checklists = checklistResult;
+			var dataset = new TrelloTransformer().buildDependencyOrientatedDataSet(cards,lists,checklists);
 			this.invis.updateGraph(this.settings,dataset);
 		}.bind(this));
 	}
@@ -100,8 +102,9 @@ TrelloInvisDepApp.prototype = function(){
 			$('.loadingMessage').hide();
 			var cards = results[0];
 			var lists = results[1];
+      var checklists = results[2];
 
-			var dataset = new TrelloTransformer().buildDependencyOrientatedDataSet(cards,lists);
+			var dataset = new TrelloTransformer().buildDependencyOrientatedDataSet(cards,lists,checklists);
 
 			this.invis = new InVis();
 
@@ -373,7 +376,7 @@ TrelloInvisDepApp.prototype = function(){
 	};
 }();
 
-var _gaq = _gaq || [];
+/*var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-46145442-5']);
 _gaq.push(['_trackPageview']);
 
@@ -381,7 +384,7 @@ _gaq.push(['_trackPageview']);
   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
   ga.src = 'https://ssl.google-analytics.com/ga.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
+})();*/
 
 var app = new TrelloInvisDepApp();
 app.init();
