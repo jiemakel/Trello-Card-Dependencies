@@ -117,6 +117,12 @@ InVis.prototype = function()
             this.parentNode.parentNode.parentNode.parentNode.parentNode.setAttribute("class",'cardNode');
           });
 					return;
+        } else if (d3.event.target.className.indexOf('card-label') === 0) {
+          visSettings.svgElement.selectAll('.cardNode').attr('class', 'cardNode muted');
+          visSettings.svgElement.selectAll("[title='"+d3.event.target.title+"']").each(function() {
+            this.parentNode.parentNode.parentNode.parentNode.setAttribute("class",'cardNode');
+          });
+          return;
         } else
           visSettings.svgElement.selectAll('.muted').attr('class', 'cardNode');
 			})
