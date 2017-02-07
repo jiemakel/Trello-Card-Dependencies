@@ -2,9 +2,8 @@
   "manifest_version": 2,
 
   "name": "Trello Card Dependencies V2.0",
-  "description": "Modification of the original Trello Card Dependencies (https://chrome.google.com/webstore/detail/trello-card-dependencies/ddhnhdoghhfoeceiohphm)",
+  "description": "Modification of https://chrome.google.com/webstore/detail/trello-card-dependencies/ddhnhdoghhfoeceiohphm",
   "version": "2.1",
-
   "permissions": [
 	"http://trello.com/b*",
 	"https://trello.com/b*",
