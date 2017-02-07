@@ -104,6 +104,22 @@ InVis.prototype = function()
 			.append("foreignObject")
 			.attr('class','cardNode')
 			.on('mousedown',function(){this.disableZoomAndPan(true);}.bind(this))
+			.on('mouseover',function() {
+				if (d3.event.target.className.indexOf('member-') === 0) {
+          visSettings.svgElement.selectAll('.cardNode').attr('class', 'cardNode muted');
+          visSettings.svgElement.selectAll("[title='"+d3.event.target.title+"']").each(function() {
+            this.parentNode.parentNode.parentNode.parentNode.parentNode.setAttribute("class",'cardNode');
+          });
+					return;
+				} else if (d3.event.target.className.indexOf('member') === 0) {
+          visSettings.svgElement.selectAll('.cardNode').attr('class', 'cardNode muted');
+          visSettings.svgElement.selectAll("[title='"+d3.event.target.childNodes[0].title+"']").each(function() {
+            this.parentNode.parentNode.parentNode.parentNode.parentNode.setAttribute("class",'cardNode');
+          });
+					return;
+        } else
+          visSettings.svgElement.selectAll('.muted').attr('class', 'cardNode');
+			})
 			.html(function(d,i){
 				return me.visSettings.nodeSettings.buildNode(d,i);
 			})
