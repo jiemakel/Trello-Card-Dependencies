@@ -312,7 +312,7 @@ TrelloInvisDepApp.prototype = function(){
 				{
 
 					var findCard = function(name){
-						return cardViews.find(".list-card").filter(":has(a:contains('"+name+"'))");
+						return cardViews.find(".list-card").filter(":has(.list-card-title:contains('"+name+"'))");
 					}
 
 					//Find in parent
@@ -332,14 +332,14 @@ TrelloInvisDepApp.prototype = function(){
 							{
 								nameWithoutStoryPoints = storyPointsMatch[1]
 								card = findCard(nameWithoutStoryPoints);
-							}
+							} else console.log("Card not found!",d.name)
 						}
 					}
 
 					card.addClass(d.state);
 
 					//return convertTemplateToHtml($template);
-					return convertTemplateToHtml(card[0].outerHTML);
+					if (card.length !== 0) return convertTemplateToHtml(card[0].outerHTML);
 
 				}
 
